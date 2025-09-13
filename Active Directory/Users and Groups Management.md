@@ -10,6 +10,18 @@
   ```powershell
   Get-ADUser -Filter *
   ```
+- List active users in AD
+  ```powershell
+  Get-ADUser -Filter * -Properties Enabled | Where-Object { $_.Enabled -eq $true } 
+  # Get-ADUser -Filter * → fetches all AD users.
+  # -Properties Enabled → ensures the Enabled attribute is retrieved.
+  # Where-Object { $_.Enabled -eq $true } → filters only active accounts.
+  # Measure-Object → counts them.
+  ```
+- Count all active users in AD
+  ```powershell
+  Get-ADUser -Filter * -Properties Enabled | Where-Object { $_.Enabled -eq $true } | Measure-Object
+  ```
 
 ---
 
