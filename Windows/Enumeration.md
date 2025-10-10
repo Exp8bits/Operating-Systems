@@ -81,3 +81,30 @@
 %SYSTEMROOT%\System32\config\RegBack\SAM
 %SYSTEMROOT%\System32\config\RegBack\system
 ```
+
+---
+
+## What software is installed?
+```powershell
+dir /a "C:\Program Files"
+dir /a "C:\Program Files (x86)"
+reg query HKEY_LOCAL_MACHINE\SOFTWARE
+Get-ChildItem -path Registry::HKEY_LOCAL_MACHINE\SOFTWARE | ft Name
+Get-ChildItem 'C:\Program Files', 'C:\Program Files (x86)' | ft Parent,Name,LastWriteTime
+```
+
+---
+
+## Are there any weak folder or file permissions?
+#### Full permissions for everyone or users on program folders?
+```powershell
+icacls "C:\Program Files\*" 2>nul | findstr "(F)" | findstr "Everyone"
+icacls "C:\Program Files (x86)\*" 2>nul | findstr "(F)" | findstr "Everyone"
+icacls "C:\Program Files\*" 2>nul | findstr "(F)" | findstr "BUILTIN\Users"
+icacls "C:\Program Files (x86)\*" 2>nul | findstr "(F)" | findstr "BUILTIN\Users"
+```
+
+---
+---
+
+---
