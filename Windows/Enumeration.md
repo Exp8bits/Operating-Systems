@@ -96,15 +96,22 @@ Get-ChildItem 'C:\Program Files', 'C:\Program Files (x86)' | ft Parent,Name,Last
 ---
 
 ## Are there any weak folder or file permissions?
-#### Full permissions for everyone or users on program folders?
 ```powershell
+# Full permissions for everyone or users on program folders?
 icacls "C:\Program Files\*" 2>nul | findstr "(F)" | findstr "Everyone"
 icacls "C:\Program Files (x86)\*" 2>nul | findstr "(F)" | findstr "Everyone"
 icacls "C:\Program Files\*" 2>nul | findstr "(F)" | findstr "BUILTIN\Users"
 icacls "C:\Program Files (x86)\*" 2>nul | findstr "(F)" | findstr "BUILTIN\Users"
+
+# Modify Permissions for Everyone or Users on Program Folders?
+icacls "C:\Program Files\*" 2>nul | findstr "(M)" | findstr "Everyone"
+icacls "C:\Program Files (x86)\*" 2>nul | findstr "(M)" | findstr "Everyone"
+icacls "C:\Program Files\*" 2>nul | findstr "(M)" | findstr "BUILTIN\Users" 
+icacls "C:\Program Files (x86)\*" 2>nul | findstr "(M)" | findstr "BUILTIN\Users"
+Get-ChildItem 'C:\Program Files\*','C:\Program Files (x86)\*' | % { try { Get-Acl $_ -EA SilentlyContinue | Where {($_.Access|select -ExpandProperty IdentityReference) -match 'Everyone'} } catch {}} 
+Get-ChildItem 'C:\Program Files\*','C:\Program Files (x86)\*' | % { try { Get-Acl $_ -EA SilentlyContinue | Where {($_.Access|select -ExpandProperty IdentityReference) -match 'BUILTIN\Users'} } catch {}} 
 ```
 
 ---
----
 
----
+
