@@ -114,4 +114,17 @@ Get-ChildItem 'C:\Program Files\*','C:\Program Files (x86)\*' | % { try { Get-Ac
 
 ---
 
+## Check the permission using `accesschk.exe`
+- Install `accesschk.exe` if now installed [accesschk.exe](https://learn.microsoft.com/en-us/sysinternals/downloads/accesschk)
+- Check for writeable folders and files.
+  ```poweshell
+  # -q = omit banner, -w = show only objects that have write access, -s = recursive, -v = verbose, -u = suppress errors.
+  accesschk.exe -qwsvu "Everyone" *
+  accesschk.exe -qwsvu "Authenticated Users" *
+  accesschk.exe -qwsvu "Users" *
+  accesschk.exe /accepteula \pipe                 // enumerate permissions for users 
+  accesschk.exe -w \pipe\* -v                     // focus on write permissions for everyone services
+  ```
+
+---
 
