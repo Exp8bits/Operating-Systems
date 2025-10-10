@@ -28,9 +28,13 @@
   GET-MPComputerStatus
   ```
 
-### To obtain all the tasks currently running
+### To obtain all the tasks/services currently running
   ```powershell
   tasklist /svc
+  tasklist /v
+  net start
+  sc query
+  Get-Service | Where-Object { $_.Status -eq "Running" }
   ```
 
 ### To obtain all information about the system
@@ -119,11 +123,16 @@ Get-ChildItem 'C:\Program Files\*','C:\Program Files (x86)\*' | % { try { Get-Ac
 - Check for writeable folders and files.
   ```poweshell
   # -q = omit banner, -w = show only objects that have write access, -s = recursive, -v = verbose, -u = suppress errors.
+  # Search for files that anyone can modify.
   accesschk.exe -qwsvu "Everyone" *
+  accesschk.exe -qwsvu "Everyone" "C:\Program Files\*"
+  # Search for files that Authenticated Users can modify.
   accesschk.exe -qwsvu "Authenticated Users" *
+  # Search for files that Users can modify.
   accesschk.exe -qwsvu "Users" *
-  accesschk.exe /accepteula \pipe                 // enumerate permissions for users 
-  accesschk.exe -w \pipe\* -v                     // focus on write permissions for everyone services
+  # Enumerate permissions for users 
+  accesschk.exe /accepteula \pipe
+  accesschk.exe -w \pipe\* -v                             // focus on write permissions for everyone services
   ```
 
 ---
