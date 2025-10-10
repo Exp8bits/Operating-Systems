@@ -37,6 +37,13 @@
   Get-Service | Where-Object { $_.Status -eq "Running" }
   ```
 
+### To obtain process name, id
+```powershell
+Get-Process | where {$_.ProcessName -notlike "svchost*"} | ft ProcessName, Id
+# This one liner returns the process owner without admin rights, if something is blank under owner it’s probably running as SYSTEM, NETWORK SERVICE, or LOCAL SERVICE.
+Get-WmiObject -Query "Select * from Win32_Process" | where {$_.Name -notlike "svchost*"} | Select Name, Handle, @{Label="Owner";Expression={$_.GetOwner().User}} | ft -AutoSize
+```
+
 ### To obtain all information about the system
   ```powershell
   systeminfo
@@ -134,6 +141,16 @@ Get-ChildItem 'C:\Program Files\*','C:\Program Files (x86)\*' | % { try { Get-Ac
   accesschk.exe /accepteula \pipe
   accesschk.exe -w \pipe\* -v                             // focus on write permissions for everyone services
   ```
+
+---
+
+## Find any unquoted service paths
+```powershell
+# CMD
+wmic service get name,displayname,pathname,startmode 2>nul |findstr /i "Auto" 2>nul |findstr /i /v "C:\Windows\\" 2>nul |findstr /i /v """
+# Powershell
+gwmi -class Win32_Service -Property Name, DisplayName, PathName, StartMode | Where {$_.StartMode -eq "Auto" -and $_.PathName -notlike "C:\Windows*" -and $_.PathName -notlike '"*'} | select PathName,DisplayName,Name
+```
 
 ---
 
