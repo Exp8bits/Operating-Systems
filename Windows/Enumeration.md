@@ -188,10 +188,14 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 
 ---
 
+## Search if there's anything in the current user's auto-logon
+- Default username/password for the domain they're in
+  ```powershell
+  reg query "HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon" 2>nul | findstr "DefaultUserName DefaultDomainName DefaultPassword"
+  Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\WinLogon' | select "Default*"
+  ```
 
-
-
-
+---
 
 
 
