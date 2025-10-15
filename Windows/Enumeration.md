@@ -197,5 +197,33 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 
 ---
 
+## Check the hosts file
+- You might find more than one subnet mask connected to each other, which is useful for lateral movement.
+  ```powershell
+  C:\WINDOWS\System32\drivers\etc\hosts
+  ```
 
+---
+
+## Check if firewall is turned on or not, if on, what's configured?
+```powershell
+netsh firewall show state
+netsh firewall show config
+netsh advfirewall firewall show rule name=all
+netsh advfirewall export "firewall.txt"
+```
+- To display firewall configuration
+  ```powershell
+  netsh dump
+  ```
+
+---
+
+### Check SNMP configurations
+```powershell
+reg query HKLM\SYSTEM\CurrentControlSet\Services\SNMP /s
+Get-ChildItem -path HKLM:\SYSTEM\CurrentControlSet\Services\SNMP -Recurse
+```
+
+---
 
