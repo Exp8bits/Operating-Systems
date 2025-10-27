@@ -197,6 +197,13 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 
 ---
 
+## Check if AlwaysInstallElevated enabled for priv esc
+  ```powershell
+  reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
+  ```
+
+---
+
 ## Check the hosts file
 - You might find more than one subnet mask connected to each other, which is useful for lateral movement.
   ```powershell
