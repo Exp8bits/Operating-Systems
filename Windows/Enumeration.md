@@ -226,7 +226,7 @@ netsh advfirewall export "firewall.txt"
 
 ---
 
-### Check SNMP configurations
+## Check SNMP configurations
 ```powershell
 reg query HKLM\SYSTEM\CurrentControlSet\Services\SNMP /s
 Get-ChildItem -path HKLM:\SYSTEM\CurrentControlSet\Services\SNMP -Recurse
@@ -234,3 +234,44 @@ Get-ChildItem -path HKLM:\SYSTEM\CurrentControlSet\Services\SNMP -Recurse
 
 ---
 
+## If the server is an IIS webserver, what's in inetpub? Any hidden directories? web.config files?
+```powershell
+# CMD
+dir /a C:\inetpub\
+dir /s web.config
+C:\Windows\System32\inetsrv\config\applicationHost.config
+# Powershell
+Get-Childitem –Path C:\inetpub\ -Include web.config -File -Recurse -ErrorAction SilentlyContinue
+```
+
+---
+
+## Is XAMPP, Apache, or PHP installed? Any there any XAMPP, Apache, or PHP configuration files?
+```powershell
+# CMD
+dir /s php.ini httpd.conf httpd-xampp.conf my.ini my.cnf
+# Powershell
+Get-Childitem –Path C:\ -Include php.ini,httpd.conf,httpd-xampp.conf,my.ini,my.cnf -File -Recurse -ErrorAction SilentlyContinue
+```
+
+---
+
+## Check IIS Logs
+```powershell
+C:\inetpub\logs\LogFiles\W3SVC1\u_ex[YYMMDD].log
+C:\inetpub\logs\LogFiles\W3SVC2\u_ex[YYMMDD].log
+C:\inetpub\logs\LogFiles\FTPSVC1\u_ex[YYMMDD].log
+C:\inetpub\logs\LogFiles\FTPSVC2\u_ex[YYMMDD].log
+```
+
+---
+
+## Check Apache Logs
+```powershell
+# CMD
+dir /s access.log error.log
+# Powershell
+Get-Childitem –Path C:\ -Include access.log,error.log -File -Recurse -ErrorAction SilentlyContinue
+```
+
+---
