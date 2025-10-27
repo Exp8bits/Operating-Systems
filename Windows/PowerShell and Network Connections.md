@@ -213,8 +213,9 @@ Get-ChildItem -path HKLM:\SYSTEM\CurrentControlSet\Services\SNMP -Recurse
 - Downloads files from a URL to your local system.
 - Usage:
   ```powershell
-  Invoke-WebRequest -Uri "<URL>" -OutFile "<FileName>"
-  Invoke-WebRequest -Uri "http://example.com/file.txt" -OutFile "C:\Users\User\file.txt"
+  Invoke-WebRequest -Uri "<Target_URL>" -OutFile "<FileName>"
+  Invoke-WebRequest -Uri "http://example.com/file.ext" -OutFile "C:\Users\User\file.ext"
+  (New-Object System.Net.WebClient).DownloadFile("http://example.com/file.ext", "C:\Users\User\file.ext") 
   ```
 
 ---
